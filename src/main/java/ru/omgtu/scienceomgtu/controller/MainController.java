@@ -1,10 +1,8 @@
-package ru.omgtu.scienceomgtu.Controller;
+package ru.omgtu.scienceomgtu.controller;
 
 
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import ru.omgtu.scienceomgtu.model.Author;
 import ru.omgtu.scienceomgtu.model.Organization;
 import ru.omgtu.scienceomgtu.repository.AuthorRepository;
