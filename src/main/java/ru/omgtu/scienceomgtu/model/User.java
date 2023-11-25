@@ -1,10 +1,11 @@
 package ru.omgtu.scienceomgtu.model;
 
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "user")
 @Table(name = "\"user\"")
 @Data
 public class User {
@@ -13,19 +14,16 @@ public class User {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-//    @Lob
     @Column(name = "email")
     private String email;
 
-//    @Lob
     @Column(name = "login", nullable = false)
-    private String login;
+    private String username;
 
-//    @Lob
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;
 }

@@ -1,6 +1,8 @@
 package ru.omgtu.scienceomgtu.model;
 
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 
@@ -9,11 +11,13 @@ import javax.persistence.*;
 @Data
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
 
-    //    @Lob
     @Column(name = "name")
-    private String name;
+    private String role;
+
+    public GrantedAuthority getAuthority() {
+        return new SimpleGrantedAuthority(role);
+    }
 }

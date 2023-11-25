@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>LOGIN PAGE</title>
+</head>
+<body>
+    <div sec:authorize="isAuthenticated()" class="navbar-dropdown">
+        <h1>isAuthenticated</h1>
+        <h1 sec:authorize="hasAnyAuthority('ADMIN', 'USER')">HAS AUTHORITY</h1>
+    </div>
+
+    <h1 sec:authorize="isAnonymous()">isAnonymous</h1>
+
+
+    <h2>Login</h2>
+    <form th:action="@{/login}" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <input style="visibility: hidden; position: absolute;" type="checkbox" class="input-place" checked name="remember-me"/>
+        <button type="submit" name="login">Login</button>
+    </form>
+
+<!--    <div class="login-width-align">-->
+<!--        <form method="post" th:action="@{/login}" class="login-form">-->
+<!--            <h3 class="login-h3">OMGTU Science</h3>-->
+
+<!--            <div th:if="${(#httpServletRequest.getParameter('error') != null) and (#httpServletRequest.getParameter('error') == 'true')}">-->
+<!--                <h5 class="validationError">-->
+<!--                    Username and\or password is incorrect.-->
+<!--                </h5>-->
+<!--            </div>-->
+
+<!--            <input type="text" class="login-input" placeholder="Username" name="username" id="username"><br/>-->
+<!--            <input type="password" class="login-input" placeholder="Password" name="password" id="password"><br/>-->
+<!--            <input style="visibility: hidden; position: absolute;" type="checkbox" class="input-place" checked name="remember-me"/>-->
+
+<!--            <button type="submit" class="login-button button btn" name="login">Login</button>-->
+<!--            <h5 class="h5-to-sign-up">Don't have account yet?-->
+<!--                <a th:href="@{/register}" class="btn-to-sign-up">Sign Up</a></h5>-->
+<!--        </form>-->
+<!--    </div>-->
+</body>
+</html>
