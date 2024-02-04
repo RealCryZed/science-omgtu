@@ -1,7 +1,6 @@
 package ru.omgtu.scienceomgtu.model;
 
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 

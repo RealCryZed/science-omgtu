@@ -7,4 +7,5 @@ import ru.omgtu.scienceomgtu.model.PublicationType;
 @Repository
 public interface PublicationTypeRepository extends JpaRepository<PublicationType, Integer> {
 
+    PublicationType findPublicationTypeByName(String name);
 }

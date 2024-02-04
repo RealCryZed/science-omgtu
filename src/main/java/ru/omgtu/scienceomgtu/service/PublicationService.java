@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import ru.omgtu.scienceomgtu.model.*;
 import ru.omgtu.scienceomgtu.repository.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -19,10 +22,22 @@ public class PublicationService {
     private PublicationLinkRepository publicationLinkRepository;
 
     @Autowired
+    private PublicationTypeRepository publicationTypeRepository;
+
+    @Autowired
     private KeywordService keywordService;
 
     @Autowired
     private AuthorService authorService;
+
+    public void addPublication(Publication publication, LocalDate localDate) {
+        publication.setPublicationDate(localDate);
+        publicationRepository.save(publication);
+    }
+
+    public List<PublicationType> getPublicationTypes() {
+        return publicationTypeRepository.findAll();
+    }
 
     public Page<Publication> findPublicationsWithPagination(int offset, int pageSize) {
         Page<Publication> publicationsPage = publicationRepository.findAll(PageRequest.of(offset - 1, pageSize));
@@ -69,5 +84,9 @@ public class PublicationService {
         } catch (NullPointerException e) {}
 
         return str;
+    }
+
+    public PublicationType findPublicationTypeByName(String name) {
+        return publicationTypeRepository.findPublicationTypeByName(name);
     }
 }

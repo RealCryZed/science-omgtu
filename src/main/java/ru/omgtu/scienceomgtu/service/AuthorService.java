@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.omgtu.scienceomgtu.model.*;
 import ru.omgtu.scienceomgtu.repository.AuthorPublicationOrganizationRepository;
 import ru.omgtu.scienceomgtu.repository.AuthorPublicationRepository;
+import ru.omgtu.scienceomgtu.repository.AuthorRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,18 @@ public class AuthorService {
 
     @Autowired
     private AuthorPublicationOrganizationRepository authorPublicationOrganizationRepository;
+
+    @Autowired
+    private AuthorRepository authorRepository;
+
+    public void addAuthor(final Author author) {
+        author.setUser(null);
+        authorRepository.save(author);
+    }
+
+    public List<Author> getAllAuthors() {
+        return authorRepository.findAll();
+    }
 
     public List<Author> getAuthorListByPublication(Publication publication) {
         List<Author> authors = new ArrayList<>();

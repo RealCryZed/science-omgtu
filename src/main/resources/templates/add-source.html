@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить источник | ОмГТУ</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/styles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/navbar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/admin.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/add.css}">
+</head>
+<body>
+    <div th:include="navbar :: navbar" class="navbar"></div>
+
+    <div class="body add-source">
+        <div class="width-align">
+            <div class="big-center-menu">
+                <h1 style="text-align: center">Добавить источник</h1>
+
+                <div class="source-creation">
+                    <form method="post" th:action="@{/admin/add-source}" th:object="${source}" class="add-form">
+                        <label class="text-before-field first-text-field" for="sourceTypeString">Введите тип источника</label>
+                        <div th:if="${#fields.hasErrors('sourceTypeString')}">
+                                <span class="validationError"
+                                      th:errors="*{sourceTypeString}">Name Error
+                                </span><br/>
+                        </div>
+                        <select class="select-element" name="sourceTypeString" id="sourceTypeString">
+                            <option th:each="singleSource : ${sourceTypes}"
+                                    th:value="${singleSource.name}" th:text="${singleSource.name}"></option></select><br/>
+
+                        <label class="text-before-field" for="sourceName">Введите название источника</label>
+                        <div th:if="${#fields.hasErrors('name')}">
+                            <h5 class="validationError"
+                                th:errors="*{name}">Ошибка названия
+                            </h5>
+                        </div>
+                        <input type="text" class="add-source-input" placeholder="Название источника" id="sourceName"
+                               th:field="*{name}">
+
+                        <button type="submit" class="add-source-button button btn" name="add-source">Добавить источник</button>
+
+                        <a th:href="@{/admin}" class="btn-to-admin btn-to-admin-source">Вернуться обратно</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

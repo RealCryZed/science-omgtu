@@ -3,6 +3,7 @@ package ru.omgtu.scienceomgtu.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "source")
@@ -17,7 +18,10 @@ public class Source {
     @JoinColumn(name = "source_type_id", nullable = false)
     private SourceType sourceType;
 
-//    @Lob
+    @Transient
+    private String sourceTypeString;
+
     @Column(name = "name", nullable = false)
+    @Size(min = 1, message = "Пожалуйста, введите название источника")
     private String name;
 }

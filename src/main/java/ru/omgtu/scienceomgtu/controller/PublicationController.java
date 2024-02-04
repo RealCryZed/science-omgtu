@@ -2,23 +2,17 @@ package ru.omgtu.scienceomgtu.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.omgtu.scienceomgtu.model.Publication;
-import ru.omgtu.scienceomgtu.model.User;
 import ru.omgtu.scienceomgtu.service.FilterService;
 import ru.omgtu.scienceomgtu.service.PublicationService;
-import ru.omgtu.scienceomgtu.service.UserService;
 
 @Controller
 public class PublicationController {
-    @Autowired
-    private UserService userService;
 
     private int page_size = 20;
 

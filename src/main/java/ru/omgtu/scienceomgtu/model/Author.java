@@ -1,6 +1,7 @@
 package ru.omgtu.scienceomgtu.model;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -32,6 +33,7 @@ public class Author {
     private User user;
 
     @Column(name = "birthday")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
 
     @Transient

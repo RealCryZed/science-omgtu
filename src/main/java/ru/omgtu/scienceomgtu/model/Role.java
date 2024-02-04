@@ -1,8 +1,6 @@
 package ru.omgtu.scienceomgtu.model;
 
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 
@@ -16,8 +14,4 @@ public class Role {
 
     @Column(name = "name")
     private String role;
-
-    public GrantedAuthority getAuthority() {
-        return new SimpleGrantedAuthority(role);
-    }
 }

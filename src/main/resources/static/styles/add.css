@@ -1,0 +1,35 @@
+.first-text-field {
+    margin-top: 15px;
+}
+
+.text-before-field {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.add-input {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding: 3px;
+    padding-left: 5px;
+}
+
+.add-button {
+    padding: 12px 7px;
+    border: 0;
+    border-radius: 2px;
+    font-size: 15px;
+    font-weight: 600;
+    background: white;
+    transition: .1s ease;
+}
+
+.add-button:hover {
+    background-color: #ececec;
+    color: #224899;
+    cursor: pointer;
+}
+
+.btn-to-admin {
+    max-width: 132px;
+}

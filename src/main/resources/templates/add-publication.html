@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить публикацию | ОмГТУ</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/styles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/navbar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/admin.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/add.css}">
+</head>
+<body>
+<div th:include="navbar :: navbar" class="navbar"></div>
+
+<div class="body add-publication">
+    <div class="width-align">
+        <div class="big-center-menu">
+            <h1 style="text-align: center">Добавить публикацию</h1>
+
+            <div class="publication-creation">
+                <form method="post" th:action="@{/admin/add-publication}" th:object="${publication}" class="add-form">
+                    <label class="text-before-field first-text-field" for="publicationType">Выберите тип публикации</label>
+                    <div th:if="${#fields.hasErrors('publicationType')}">
+                                <span class="validationError"
+                                      th:errors="*{publicationType}">Name Error
+                                </span><br/>
+                    </div>
+                    <select class="select-element" name="publicationType" id="publicationType">
+                        <option th:each="publType : ${publicationTypes}"
+                                th:value="${publType.name}" th:text="${publType.name}"></option></select><br/>
+
+                    <label class="text-before-field first-text-field" for="sourceString">Выберите тип источника</label>
+                    <div th:if="${#fields.hasErrors('sourceString')}">
+                                <span class="validationError"
+                                      th:errors="*{sourceString}">Name Error
+                                </span><br/>
+                    </div>
+                    <select class="select-element" name="sourceString" id="sourceString">
+                        <option th:each="singleSource : ${sources}"
+                                th:value="${singleSource.name}" th:text="${singleSource.name}"></option></select><br/>
+
+                    <label class="text-before-field first-text-field" for="publicationAuthors">Введите авторов публикации (через запятую)</label>
+                    <div th:if="${#fields.hasErrors('authors')}">
+                        <h5 class="validationError"
+                            th:errors="*{authors}">Ошибка названия
+                        </h5>
+                    </div>
+                    <input type="text" class="add-publication-input" placeholder="Авторы через запятую" id="publicationAuthors"
+                           th:field="*{authors}"><br/>
+
+                    <label class="text-before-field" for="title">Введите название статьи</label>
+                    <div th:if="${#fields.hasErrors('title')}">
+                        <h5 class="validationError"
+                            th:errors="*{title}">Ошибка названия
+                        </h5>
+                    </div>
+                    <input type="text" class="add-publication-input" placeholder="Название статьи" id="title"
+                           th:field="*{title}">
+
+                    <label class="text-before-field" for="abstractField">Введите аннотацию</label>
+                    <div th:if="${#fields.hasErrors('abstractField')}">
+                        <h5 class="validationError"
+                            th:errors="*{abstractField}">Ошибка названия
+                        </h5>
+                    </div>
+                    <input type="text" class="add-publication-input" placeholder="Аннотация" id="abstractField"
+                           th:field="*{abstractField}">
+
+                    <label class="text-before-field" for="date">Введите дату публикации</label>
+                    <div th:if="${#fields.hasErrors('date')}">
+                        <h5 class="validationError"
+                            th:errors="*{date}">Ошибка названия
+                        </h5>
+                    </div>
+                    <input type="text" class="add-publication-input" placeholder="ГГГГ-ММ-ДД" id="date"
+                           th:field="*{date}">
+
+                    <button type="submit" class="add-publication-button button btn" name="add-publication">Добавить публикацию</button>
+
+                    <a th:href="@{/admin}" class="btn-to-admin btn-to-admin-publication">Вернуться обратно</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

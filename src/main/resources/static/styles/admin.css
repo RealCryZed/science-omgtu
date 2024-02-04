@@ -1,0 +1,41 @@
+select {
+    max-width: 210px;
+}
+
+.big-center-menu {
+    order: unset !important;
+    margin: 0 auto !important;
+}
+
+.add-form {
+    display: grid;
+    margin: 0 auto;
+    max-width: 210px;
+}
+
+.admin-btns-div {
+    display: flex;
+    margin-top: 25px;
+}
+
+.admin-btns-margin {
+    display: flex;
+    margin: 0 auto;
+}
+
+.admin-btns {
+    background: white;
+    border-radius: 2px;
+    padding: 15px;
+    margin-right: 15px;
+    line-height: 15px;
+}
+
+.admin-btns:last-child {
+    margin-right: 0px;
+}
+
+.admin-btns:hover {
+    background-color: #ececec;
+    color: #224899;
+}
