@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать автора | ОмГТУ</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/styles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/navbar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/admin.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/publications.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/edit-author.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/add.css}">
+</head>
+<body>
+<div th:include="navbar :: navbar" class="navbar"></div>
+
+<div class="body add-author">
+    <div class="width-align">
+        <div class="big-center-menu">
+            <h1 style="text-align: center">Редактирование автора</h1>
+            <div class="delete-author">
+                <a th:href="@{'/admin/edit-author/delete/' + ${author.getId()}}" class="add-button button btn">Удалить автора</a>
+            </div>
+
+            <div class="author-creation">
+                <form method="post" th:action="@{'/admin/edit-author/' + ${author.getId()}}" th:object="${author}" class="add-form">
+                    <label class="text-before-field" for="adminName">Введите имя автора</label>
+                    <div th:if="${#fields.hasErrors('name')}">
+                        <h5 class="validationError"
+                            th:errors="*{name}">Ошибка названия
+                        </h5>
+                    </div>
+                    <input type="text" class="add-input" th:value="${author.getName()}" placeholder="Имя автора" id="adminName"
+                           th:field="*{name}">
+
+                    <label class="text-before-field" for="adminSurname">Введите фамилию автора</label>
+                    <div th:if="${#fields.hasErrors('surname')}">
+                        <h5 class="validationError"
+                            th:errors="*{surname}">Ошибка названия
+                        </h5>
+                    </div>
+                    <input type="text" class="add-input" th:value="${author.getSurname()}" placeholder="Фамилия автора" id="adminSurname"
+                           th:field="*{surname}">
+
+                    <label class="text-before-field" for="adminPatronymic">Введите отчество автора</label>
+                    <div th:if="${#fields.hasErrors('patronymic')}">
+                        <h5 class="validationError"
+                            th:errors="*{patronymic}">Ошибка названия
+                        </h5>
+                    </div>
+                    <input type="text" class="add-input" th:value="${author.getPatronymic()}" placeholder="Отчество автора" id="adminPatronymic"
+                           th:field="*{patronymic}">
+
+                    <div>
+                        <label class="text-before-field" for="adminPatronymic">Подтвержденный автор?</label>
+                        <input type="checkbox" class="add-input" th:value="${author.getConfirmed()}" placeholder="Подтвержденный автор" id="adminConfirmed"
+                               th:field="*{confirmed}">
+                    </div>
+
+                    <label class="text-before-field" for="adminBirthday">Введите дату рождения автора</label>
+                    <div th:if="${#fields.hasErrors('birthday')}">
+                        <h5 class="validationError"
+                            th:errors="*{birthday}">Ошибка названия
+                        </h5>
+                    </div>
+                    <input type="date" class="add-input" th:value="${author.getBirthday()}" placeholder="Дата рождения автора" id="adminBirthday"
+                           th:field="*{birthday}">
+
+                    <button type="submit" class="add-button button btn" name="add-author">Добавить автора</button>
+
+                    <a th:href="@{/admin}" class="btn-to-admin">Вернуться обратно</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

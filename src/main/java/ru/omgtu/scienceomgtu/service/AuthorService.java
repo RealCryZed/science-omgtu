@@ -1,6 +1,8 @@
 package ru.omgtu.scienceomgtu.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.omgtu.scienceomgtu.model.*;
 import ru.omgtu.scienceomgtu.repository.AuthorPublicationOrganizationRepository;
@@ -55,5 +57,17 @@ public class AuthorService {
         }
 
         return authors;
+    }
+
+    public Page<Author> findAuthorsWithPagination(int offset, int pageSize) {
+        return authorRepository.findAll(PageRequest.of(offset - 1, pageSize));
+    }
+
+    public Author getAuthorById(Integer id) {
+        return authorRepository.findAuthorById(id);
+    }
+
+    public void deleteAuthor(Integer id) {
+        authorRepository.deleteById(id);
     }
 }

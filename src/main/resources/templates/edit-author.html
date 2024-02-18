@@ -1,10 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Редактировать автора | ОмГТУ</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/styles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/navbar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/admin.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/publications.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/edit-author.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/add.css}">
 </head>
 <body>
+<div th:include="navbar :: navbar" class="navbar"></div>
+<h1 style="text-align: center;">Выберите профиль автора для редактирования</h1>
+<div class="app-wrapper">
+    <div class="author-filter-wrapper">
+        <div class="filter-number" style="display: grid;">
+            Отображать по:
+            <ul>
+                <li><a th:href="@{'/admin/edit-author/page/1?pageSize=20'}">20</a></li>
+                <li><a th:href="@{'/admin/edit-author/page/1?pageSize=40'}">40</a></li>
+                <li><a th:href="@{'/admin/edit-author/page/1?pageSize=80'}">80</a></li>
+            </ul>
+        </div>
+    </div>
 
+    <div class="authors-block">
+        <div th:each="author : ${authors}" class="author-wrapper">
+            <a th:href="@{'/admin/edit-author/' + ${author.getId()}}">
+                <img src="/img/author.jpg" alt="Author"/>
+<!--                <div>-->
+<!--                    <h4>Имя: </h4>-->
+                    <h4 class="author-name" th:text="${author.name}"></h4>
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <h4>Фамилия: </h4>-->
+                    <h4 class="author-surname" th:text="${author.surname}"></h4>
+                    <h4 class="author-patronymic" th:text="${author.patronymic}"></h4>
+<!--                <div>-->
+<!--                    <h4>Дата рождения: </h4>-->
+                    <h4 class="author-birthday" th:text="${author.birthday}"></h4>
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <h4>Подтвержденный: </h4>-->
+                    <h4 class="author-confirmed" th:text="${author.confirmed}"></h4>
+<!--                </div>-->
+            </a>
+        </div>
+
+        <div class="publication-pages" th:if="${currentPage < 4}">
+                <span th:each="page : ${#numbers.sequence(1, 5)}">
+                    <a th:if="${page != currentPage}" th:href="@{'/admin/edit-author/page/' + ${page} + '?pageSize=' + ${pageSize}}" >[[${page}]]</a>
+                    <span th:unless="${page != currentPage}">[[${page}]]</span>
+                    &nbsp;&nbsp;
+                </span>
+            <span>
+                    ...&nbsp;&nbsp;
+                </span>
+            <span th:each="page : ${#numbers.sequence(totalPages - 1, totalPages)}">
+                    <a th:if="${page != currentPage}" th:href="@{'/admin/edit-author/page/' + ${page} + '?pageSize=' + ${pageSize}}" >[[${page}]]</a>
+                    <span th:unless="${page != currentPage}">[[${page}]]</span>
+                    &nbsp;&nbsp;
+                </span>
+        </div>
+
+        <div class="publication-pages" th:if="${currentPage >= 4 && currentPage < totalPages - 4}">
+                <span th:each="page : ${#numbers.sequence(currentPage - 2, currentPage + 2)}">
+                    <a th:if="${page != currentPage}" th:href="@{'/admin/edit-author/page/' + ${page} + '?pageSize=' + ${pageSize}}" >[[${page}]]</a>
+                    <span th:unless="${page != currentPage}">[[${page}]]</span>
+                    &nbsp;&nbsp;
+                </span>
+            <span>
+                    ...&nbsp;&nbsp;
+                </span>
+            <span th:each="page : ${#numbers.sequence(totalPages - 1, totalPages)}">
+                    <a th:if="${page != currentPage}" th:href="@{'/admin/edit-author/page/' + ${page} + '?pageSize=' + ${pageSize}}" >[[${page}]]</a>
+                    <span th:unless="${page != currentPage}">[[${page}]]</span>
+                </span>
+            &nbsp;&nbsp;
+        </div>
+
+        <div class="publication-pages" th:if="${currentPage >= totalPages - 4}">
+                <span th:if="${currentPage < totalPages - 1}" th:each="page : ${#numbers.sequence(currentPage - 2, totalPages)}">
+                    <a th:if="${page != currentPage}" th:href="@{'/admin/edit-author/page/' + ${page} + '?pageSize=' + ${pageSize}}" >[[${page}]]</a>
+                    <span th:unless="${page != currentPage}">[[${page}]]</span>
+                    &nbsp;&nbsp;
+                </span>
+            <span th:unless="${currentPage < totalPages - 1}" th:each="page : ${#numbers.sequence(totalPages - 4, totalPages)}">
+                    <a th:if="${page != currentPage}" th:href="@{'/admin/edit-author/page/' + ${page} + '?pageSize=' + ${pageSize}}" >[[${page}]]</a>
+                    <span th:unless="${page != currentPage}">[[${page}]]</span>
+                    &nbsp;&nbsp;
+                </span>
+        </div>
+    </div>
+</div>
 </body>
 </html>

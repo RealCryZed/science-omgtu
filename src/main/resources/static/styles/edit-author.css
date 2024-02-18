@@ -1,0 +1,50 @@
+.app-wrapper {
+    display: flex;
+}
+
+.author-filter-wrapper {
+    min-width: 140px;
+}
+
+.authors-block {
+    margin: 0 auto;
+}
+
+.author-wrapper {
+    display: inline-flex;
+    min-height: 350px;
+    min-width: 205px;
+    border: 1px solid;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 17px;
+    border-radius: 10px;
+    color: black;
+}
+
+.delete-author {
+    margin: 0 auto;
+    max-width: 210px;
+    text-align: center;
+    min-width: 210px;
+}
+
+.delete-author > a {
+    display: block;
+    color: red;
+}
+
+.author-wrapper > a {
+    display: block;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.author-wrapper > a > div {
+    display: flex;
+}
+
+.author-wrapper > a > img {
+    max-width: 150px;
+    max-height: 150px;
+}

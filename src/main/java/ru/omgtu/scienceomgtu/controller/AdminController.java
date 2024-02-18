@@ -1,6 +1,7 @@
 package ru.omgtu.scienceomgtu.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -8,18 +9,20 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.omgtu.scienceomgtu.model.Author;
 import ru.omgtu.scienceomgtu.model.Publication;
 import ru.omgtu.scienceomgtu.model.Source;
-import ru.omgtu.scienceomgtu.model.SourceType;
 import ru.omgtu.scienceomgtu.service.AuthorService;
+import ru.omgtu.scienceomgtu.service.FilterService;
 import ru.omgtu.scienceomgtu.service.PublicationService;
 import ru.omgtu.scienceomgtu.service.SourceService;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Controller
 public class AdminController {
+    private int page_size = 20;
+    @Autowired
+    private FilterService filterService;
     @Autowired
     private AuthorService authorService;
 
@@ -52,6 +55,58 @@ public class AdminController {
         } else {
             authorService.addAuthor(author);
             modelAndView.addObject("successMessage", "Автор успешно добавлен!");
+            modelAndView.addObject("author", new Author());
+            modelAndView.setViewName("admin");
+        }
+
+        return modelAndView;
+    }
+
+    @GetMapping("/admin/edit-author/page/{offset}")
+    public ModelAndView getAllAuthorsFiltered(ModelAndView modelAndView, @PathVariable int offset,
+                                                   @RequestParam(required = false) Integer pageSize) {
+        if (pageSize == null) pageSize = page_size;
+        else page_size = pageSize;
+
+        Page<Author> allAuthors = authorService.findAuthorsWithPagination(offset, pageSize);
+
+        modelAndView.addObject("pageSize", page_size);
+        modelAndView.addObject("currentPage", offset);
+        modelAndView.addObject("totalPages", allAuthors.getTotalPages() - 1);
+
+        modelAndView.addObject("authors", allAuthors.getContent());
+        modelAndView.setViewName("edit-author");
+        return modelAndView;
+    }
+
+    @GetMapping("/admin/edit-author/delete/{id}")
+    public ModelAndView deleteAuthor(ModelAndView modelAndView, @PathVariable Integer id) {
+        authorService.deleteAuthor(id);
+        modelAndView.setViewName("admin");
+
+        return modelAndView;
+    }
+
+    @GetMapping("/admin/edit-author/{id}")
+    public ModelAndView getAuthorOnEdit(ModelAndView modelAndView, @PathVariable Integer id) {
+        Author author = authorService.getAuthorById(id);
+        modelAndView.addObject("author", author);
+        modelAndView.setViewName("edit-single-author");
+
+        return modelAndView;
+    }
+
+    @PostMapping("/admin/edit-author/{id}")
+    public ModelAndView editAuthor(ModelAndView modelAndView,
+                                  @PathVariable Integer id,
+                                  @Valid @ModelAttribute("author") Author author,
+                                  BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject(author);
+            modelAndView.setViewName("/edit-author/" + id);
+        } else {
+            authorService.addAuthor(author);
+            modelAndView.addObject("successMessage", "Автор успешно отредактирован!");
             modelAndView.addObject("author", new Author());
             modelAndView.setViewName("admin");
         }
@@ -160,14 +215,14 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping ("/admin/edit-publication")
+    @GetMapping("/admin/edit-publication")
     public ModelAndView getEditPublicationPage(ModelAndView modelAndView) {
         modelAndView.setViewName("edit-publication");
         return modelAndView;
     }
 
 
-    @GetMapping ("/admin/merge-authors")
+    @GetMapping("/admin/merge-authors")
     public ModelAndView getMergeAuthorsPage(ModelAndView modelAndView) {
         modelAndView.setViewName("merge-authors");
         return modelAndView;

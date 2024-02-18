@@ -6,5 +6,5 @@ import ru.omgtu.scienceomgtu.model.Author;
 
 @Repository
 public interface AuthorRepository extends JpaRepository<Author, Integer> {
-
+    Author findAuthorById(Integer id);
 }
