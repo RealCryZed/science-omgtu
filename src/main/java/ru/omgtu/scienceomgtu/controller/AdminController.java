@@ -108,7 +108,7 @@ public class AdminController {
             authorService.addAuthor(author);
             modelAndView.addObject("successMessage", "Автор успешно отредактирован!");
             modelAndView.addObject("author", new Author());
-            modelAndView.setViewName("admin");
+            modelAndView.setViewName("redirect:/admin");
         }
 
         return modelAndView;
@@ -147,10 +147,28 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping ("/admin/edit-source")
-    public ModelAndView getEditAllSourcesPage(ModelAndView modelAndView) {
-        modelAndView.addObject("sources", sourceService.getAllSources());
+    @GetMapping ("/admin/edit-source/page/{offset}")
+    public ModelAndView getEditAllSourcesPage(ModelAndView modelAndView, @PathVariable int offset,
+                                              @RequestParam(required = false) Integer pageSize) {
+        if (pageSize == null) pageSize = page_size;
+        else page_size = pageSize;
+
+        Page<Source> allSources = sourceService.findSourcesWithPagination(offset, pageSize);
+
+        modelAndView.addObject("pageSize", page_size);
+        modelAndView.addObject("currentPage", offset);
+        modelAndView.addObject("totalPages", allSources.getTotalPages() - 1);
+
+        modelAndView.addObject("sources", allSources.getContent());
         modelAndView.setViewName("edit-source");
+        return modelAndView;
+    }
+
+    @GetMapping("/admin/edit-source/delete/{id}")
+    public ModelAndView deleteSource(ModelAndView modelAndView, @PathVariable Integer id) {
+        authorService.deleteAuthor(id);
+        modelAndView.setViewName("admin");
+
         return modelAndView;
     }
 
@@ -158,7 +176,8 @@ public class AdminController {
     public ModelAndView getEditSourcePage(ModelAndView modelAndView,
                                           @PathVariable Integer id) {
         modelAndView.addObject("source", sourceService.findSourceById(id));
-        modelAndView.setViewName("edit-source");
+        modelAndView.addObject("sourceTypes", sourceService.getAllSourceTypes());
+        modelAndView.setViewName("edit-single-source");
         return modelAndView;
     }
 
@@ -169,11 +188,14 @@ public class AdminController {
                                    BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Source source = sourceService.findSourceById(editSource.getId());
-            modelAndView.addObject(source);
-            modelAndView.setViewName("redirect:admin/edit-source/" + id);
+            modelAndView.addObject("source", source);
+            modelAndView.setViewName("/admin/edit-source/" + id);
         } else {
+            editSource.setSourceType(sourceService.findSourceTypeByName(editSource.getSourceTypeString()));
             sourceService.editSource(editSource);
-            modelAndView.setViewName("redirect:admin/edit-source");
+            modelAndView.addObject("successMessage", "Источник успешно отредактирован!");
+            modelAndView.addObject("source", new Source());
+            modelAndView.setViewName("redirect:/admin");
         }
 
         return modelAndView;
@@ -190,7 +212,7 @@ public class AdminController {
     }
 
     @PostMapping("/admin/add-publication")
-    public ModelAndView addSource(ModelAndView modelAndView,
+    public ModelAndView addPublication(ModelAndView modelAndView,
                                   @Valid @ModelAttribute("publication") Publication publication,
                                   BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

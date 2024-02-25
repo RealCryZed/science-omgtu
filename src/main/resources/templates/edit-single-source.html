@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать источник | ОмГТУ</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/styles.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/navbar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/admin.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/publications.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/edit-source.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/styles/add.css}">
+</head>
+<body>
+<div th:include="navbar :: navbar" class="navbar"></div>
+
+<div class="body add-source">
+    <div class="width-align">
+        <div class="big-center-menu">
+            <h1 style="text-align: center">Редактирование источника</h1>
+            <div class="delete-source">
+                <a th:href="@{'/admin/edit-source/delete/' + ${source.getId()}}" class="add-button button btn">Удалить источник</a>
+            </div>
+
+            <div class="source-creation">
+                <form method="post" th:action="@{'/admin/edit-source/' + ${source.getId()}}" th:object="${source}" class="add-form">
+                    <label class="text-before-field" for="sourceName">Введите название источника</label>
+                    <div th:if="${#fields.hasErrors('name')}">
+                        <h5 class="validationError"
+                            th:errors="*{name}">Ошибка названия
+                        </h5>
+                    </div>
+                    <input type="text" class="add-input" th:value="${source.getName()}" placeholder="Название источника" id="sourceName"
+                           th:field="*{name}">
+
+                    <div th:if="${#fields.hasErrors('sourceTypeString')}">
+                                <span class="validationError"
+                                      th:errors="*{sourceTypeString}">Name Error
+                                </span><br/>
+                    </div>
+                    <select class="select-element" name="sourceTypeString" id="sourceTypeString">
+                        <option th:each="singleSource : ${sourceTypes}"
+                                th:value="${singleSource.getName()}" th:text="${singleSource.getName()}"></option></select><br/>
+
+                    <button type="submit" class="add-button button btn" name="add-author">Редактировать источник</button>
+
+                    <a th:href="@{/admin}" class="btn-to-admin">Вернуться обратно</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

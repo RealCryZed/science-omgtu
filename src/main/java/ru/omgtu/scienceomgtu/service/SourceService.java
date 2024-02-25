@@ -1,6 +1,8 @@
 package ru.omgtu.scienceomgtu.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.omgtu.scienceomgtu.model.Source;
 import ru.omgtu.scienceomgtu.model.SourceType;
@@ -46,5 +48,9 @@ public class SourceService {
 
     public List<SourceType> getAllSourceTypes() {
         return sourceTypeRepository.findAll();
+    }
+
+    public Page<Source> findSourcesWithPagination(int offset, Integer pageSize) {
+        return sourceRepository.findAll(PageRequest.of(offset - 1, pageSize));
     }
 }

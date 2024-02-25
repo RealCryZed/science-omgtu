@@ -2,18 +2,19 @@
     display: flex;
 }
 
-.author-filter-wrapper {
+.source-filter-wrapper {
     min-width: 140px;
 }
 
-.authors-block {
+.sources-block {
     margin: 0 auto;
 }
 
-.author-wrapper {
+.source-wrapper {
     display: inline-flex;
-    min-height: 350px;
+    min-height: 380px;
     min-width: 205px;
+    max-width: 205px;
     border: 1px solid;
     margin-bottom: 5px;
     text-align: center;
@@ -22,34 +23,34 @@
     color: black;
 }
 
-.delete-author {
+.delete-source {
     margin: 0 auto;
     max-width: 210px;
     text-align: center;
     min-width: 210px;
 }
 
-.delete-author > a {
+.delete-source > a {
     display: block;
     color: red;
     border: 2px solid black;
 }
 
-.author-wrapper > a {
+.source-wrapper > a {
     display: block;
     margin: 0 auto;
     padding: 10px;
 }
 
-.author-wrapper:hover {
+.source-wrapper:hover {
     background-color: grey;
 }
 
-.author-wrapper > a > div {
+.source-wrapper > a > div {
     display: flex;
 }
 
-.author-wrapper > a > img {
+.source-wrapper > a > img {
     max-width: 150px;
     max-height: 150px;
 }
