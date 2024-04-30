@@ -30,8 +30,7 @@ public class PublicationService {
     @Autowired
     private AuthorService authorService;
 
-    public void addPublication(Publication publication, LocalDate localDate) {
-        publication.setPublicationDate(localDate);
+    public void addPublication(Publication publication) {
         publicationRepository.save(publication);
     }
 

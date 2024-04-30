@@ -221,13 +221,10 @@ public class AdminController {
             modelAndView.addObject(publication);
             modelAndView.setViewName("/add-publication");
         } else {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate date = LocalDate.parse(publication.getDate(), formatter);
-
             publication.setSource(sourceService.findSourceByName(publication.getSourceString()));
             publication.setType(publicationService.findPublicationTypeByName(publication.getPublicationType()));
 
-            publicationService.addPublication(publication, date);
+            publicationService.addPublication(publication);
 
             modelAndView.addObject("successMessage", "Публикация успешно добавлена!");
             modelAndView.addObject("publication", new Publication());
@@ -277,17 +274,22 @@ public class AdminController {
         LinkedList<String> authorsString = new LinkedList<>();
 
         for (Author author : authorService.getAuthorListByPublication(publication)) {
-            authorsString.add(author.getSurname() + " " + author.getName() + " " + author.getPatronymic());
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(author.getSurname()).append(" ").append(author.getName());
+            if (author.getPatronymic() != null) {
+                stringBuilder.append(" ").append(author.getPatronymic());
+            }
+            authorsString.add(stringBuilder.toString());
         }
 
         String authors = authorsString
                 .stream()
                 .map(name -> ("" + name + ""))
                 .collect(Collectors.joining(","));
+        publication.setAuthors(authors);
 
         modelAndView.addObject("publicationTypes", publicationService.getPublicationTypes());
         modelAndView.addObject("sources", sourceService.getAllSources());
-        modelAndView.addObject("authorList", authors);
         modelAndView.addObject("publication", publication);
         modelAndView.setViewName("edit-single-publication");
         return modelAndView;
@@ -305,13 +307,10 @@ public class AdminController {
             modelAndView.addObject("publication", publication);
             modelAndView.setViewName("/admin/edit-publication/" + id);
         } else {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate date = LocalDate.parse(editPublication.getDate(), formatter);
-
             editPublication.setSource(sourceService.findSourceByName(editPublication.getSourceString()));
             editPublication.setType(publicationService.findPublicationTypeByName(editPublication.getPublicationType()));
 
-            publicationService.addPublication(editPublication, date);
+            publicationService.addPublication(editPublication);
             modelAndView.addObject("successMessage", "Публикация успешно отредактирована!");
             modelAndView.addObject("publication", new Source());
             modelAndView.setViewName("redirect:/admin");
@@ -320,7 +319,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    public void filterFunction(ModelAndView modelAndView) {
+    private void filterFunction(ModelAndView modelAndView) {
         modelAndView.addObject("ratings", filterService.getRatings());
         modelAndView.addObject("departments", filterService.getDepartments());
         modelAndView.addObject("publicationTypes", filterService.getPublicationTypes());

@@ -55,8 +55,8 @@
                             th:errors="*{title}">Ошибка названия
                         </h5>
                     </div>
-                    <input type="text" class="add-publication-input" placeholder="Название статьи" id="title"
-                           th:field="*{title}"><br/>
+                    <textarea class="add-publication-input2" placeholder="Название статьи" id="title"
+                              th:field="*{title}"></textarea><br/>
 
                     <label class="text-before-field" for="abstractField">Введите аннотацию</label>
                     <div th:if="${#fields.hasErrors('abstractField')}">
@@ -64,8 +64,8 @@
                             th:errors="*{abstractField}">Ошибка названия
                         </h5>
                     </div>
-                    <input type="text" class="add-publication-input" placeholder="Аннотация" id="abstractField"
-                           th:field="*{abstractField}"><br/>
+                    <textarea class="add-publication-input2" placeholder="Аннотация" id="abstractField"
+                              th:field="*{abstractField}"></textarea><br/>
 
                     <label class="text-before-field" for="date">Введите дату публикации</label>
                     <div th:if="${#fields.hasErrors('date')}">
@@ -73,8 +73,8 @@
                             th:errors="*{date}">Ошибка названия
                         </h5>
                     </div>
-                    <input type="text" class="add-publication-input" placeholder="ГГГГ-ММ-ДД" id="date"
-                           th:field="*{date}"><br/>
+                    <input type="date" class="add-publication-input" id="date"
+                           th:field="*{publicationDate}"><br/>
 
                     <button type="submit" class="add-publication-button button btn" name="add-publication">Добавить публикацию</button>
 

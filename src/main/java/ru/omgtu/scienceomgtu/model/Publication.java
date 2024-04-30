@@ -1,6 +1,7 @@
 package ru.omgtu.scienceomgtu.model;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -42,6 +43,7 @@ public class Publication {
     private String abstractField;
 
     @Column(name = "publication_date", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate publicationDate;
 
     @Transient

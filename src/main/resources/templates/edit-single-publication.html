@@ -18,7 +18,7 @@
 <div class="body add-publication">
     <div class="width-align">
         <div class="big-center-menu">
-            <h1 style="text-align: center">Редактирование публикацию</h1>
+            <h1 style="text-align: center">Редактировать публикацию</h1>
             <div class="delete-publication">
                 <a th:href="@{'/admin/edit-publication/delete/' + ${publication.getId()}}" class="add-button button btn">Удалить публикацию</a>
             </div>
@@ -40,12 +40,12 @@
                     <div th:if="${#fields.hasErrors('sourceString')}">
                                 <span class="validationError"
                                       th:errors="*{sourceString}">Name Error
-                                </span><br/>
+                                </span>
                     </div>
                     <select class="select-element" name="sourceString" id="sourceString">
                         <option selected th:text="${publication.getSource().getName()}" th:value="${publication.getSource().getName()}"></option>
                         <option th:each="singleSource : ${sources}"
-                                th:value="${singleSource.name}" th:text="${singleSource.name}"></option></select><br/>
+                                th:value="${singleSource.name}" th:text="${singleSource.name}"></option></select>
 
                     <label class="text-before-field first-text-field" for="publicationAuthors">Введите авторов публикации (через запятую)</label>
                     <div th:if="${#fields.hasErrors('authors')}">
@@ -53,7 +53,7 @@
                             th:errors="*{authors}">Ошибка названия
                         </h5>
                     </div>
-                    <input th:text="${authorList}" th:value="${authorList}" type="text" class="add-publication-input" placeholder="Авторы через запятую" id="publicationAuthors"
+                    <input th:value="${publication.getAuthors()}" type="text" class="add-publication-input" placeholder="Авторы через запятую" id="publicationAuthors"
                            th:field="*{authors}"><br/>
 
                     <label class="text-before-field" for="title">Введите название статьи</label>
@@ -62,8 +62,8 @@
                             th:errors="*{title}">Ошибка названия
                         </h5>
                     </div>
-                    <input type="text" class="add-publication-input" placeholder="Название статьи" id="title"
-                           th:field="*{title}">
+                    <textarea class="add-publication-input2" placeholder="Название статьи" id="title"
+                              th:field="*{title}"></textarea><br/>
 
                     <label class="text-before-field" for="abstractField">Введите аннотацию</label>
                     <div th:if="${#fields.hasErrors('abstractField')}">
@@ -71,19 +71,19 @@
                             th:errors="*{abstractField}">Ошибка названия
                         </h5>
                     </div>
-                    <input type="text" class="add-publication-input" placeholder="Аннотация" id="abstractField"
-                           th:field="*{abstractField}">
+                    <textarea class="add-publication-input2" placeholder="Аннотация" id="abstractField"
+                              th:field="*{abstractField}"></textarea><br/>
 
-                    <label class="text-before-field" for="date">Введите дату публикации</label>
-                    <div th:if="${#fields.hasErrors('date')}">
+                    <label class="text-before-field" for="publicationDate">Введите дату публикации</label>
+                    <div th:if="${#fields.hasErrors('publicationDate')}">
                         <h5 class="validationError"
                             th:errors="*{date}">Ошибка названия
                         </h5>
                     </div>
-                    <input th:value="${publication.getPublicationDate()}" type="date" class="add-publication-input" id="date"
-                           th:field="*{date}">
+                    <input th:value="${publication.getPublicationDate()}" type="date" class="add-publication-input" id="publicationDate"
+                           th:field="*{publicationDate}"><br/>
 
-                    <button type="submit" class="add-button button btn" name="add-author">Добавить автора</button>
+                    <button type="submit" class="add-button button btn" name="add-author">Редактировать публикацию</button><br/>
 
                     <a th:href="@{/admin}" class="btn-to-admin">Вернуться обратно</a>
                 </form>

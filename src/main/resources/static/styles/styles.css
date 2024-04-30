@@ -58,3 +58,7 @@ a {
     min-width: 90%;
     max-width: 90%;
 }
+
+.add-publication-input2 {
+    min-height: 180px;
+}
