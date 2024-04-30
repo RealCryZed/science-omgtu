@@ -17,6 +17,10 @@ import ru.omgtu.scienceomgtu.service.SourceService;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class AdminController {
@@ -73,6 +77,7 @@ public class AdminController {
         modelAndView.addObject("pageSize", page_size);
         modelAndView.addObject("currentPage", offset);
         modelAndView.addObject("totalPages", allAuthors.getTotalPages() - 1);
+        filterFunction(modelAndView);
 
         modelAndView.addObject("authors", allAuthors.getContent());
         modelAndView.setViewName("edit-author");
@@ -114,12 +119,6 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping ("/admin/edit-author")
-    public ModelAndView getEditProfilePage(ModelAndView modelAndView) {
-        modelAndView.setViewName("edit-author");
-        return modelAndView;
-    }
-
     @GetMapping ("/admin/add-source")
     public ModelAndView getAddSourcePage(ModelAndView modelAndView) {
         modelAndView.addObject("sourceTypes", sourceService.getAllSourceTypes());
@@ -158,6 +157,7 @@ public class AdminController {
         modelAndView.addObject("pageSize", page_size);
         modelAndView.addObject("currentPage", offset);
         modelAndView.addObject("totalPages", allSources.getTotalPages() - 1);
+        filterFunction(modelAndView);
 
         modelAndView.addObject("sources", allSources.getContent());
         modelAndView.setViewName("edit-source");
@@ -166,7 +166,7 @@ public class AdminController {
 
     @GetMapping("/admin/edit-source/delete/{id}")
     public ModelAndView deleteSource(ModelAndView modelAndView, @PathVariable Integer id) {
-        authorService.deleteAuthor(id);
+        sourceService.deleteSource(id);
         modelAndView.setViewName("admin");
 
         return modelAndView;
@@ -243,10 +243,86 @@ public class AdminController {
         return modelAndView;
     }
 
+    @GetMapping ("/admin/edit-publication/page/{offset}")
+    public ModelAndView getEditAllPublicationsPage(ModelAndView modelAndView, @PathVariable int offset,
+                                              @RequestParam(required = false) Integer pageSize) {
+        if (pageSize == null) pageSize = page_size;
+        else page_size = pageSize;
 
-    @GetMapping("/admin/merge-authors")
-    public ModelAndView getMergeAuthorsPage(ModelAndView modelAndView) {
-        modelAndView.setViewName("merge-authors");
+        Page<Publication> allPublications = publicationService.findPublicationsWithPagination(offset, pageSize);
+
+        modelAndView.addObject("pageSize", page_size);
+        modelAndView.addObject("currentPage", offset);
+        modelAndView.addObject("totalPages", allPublications.getTotalPages() - 1);
+        filterFunction(modelAndView);
+
+        modelAndView.addObject("publications", allPublications.getContent());
+        modelAndView.setViewName("edit-publication");
         return modelAndView;
+    }
+
+    @GetMapping("/admin/edit-publication/delete/{id}")
+    public ModelAndView deletePublication(ModelAndView modelAndView, @PathVariable Integer id) {
+        publicationService.deletePublication(id);
+        modelAndView.setViewName("admin");
+
+        return modelAndView;
+    }
+
+    @GetMapping ("/admin/edit-publication/{id}")
+    public ModelAndView getEditPublicationPage(ModelAndView modelAndView,
+                                          @PathVariable Integer id) {
+        Publication publication = publicationService.findPublicationById(id);
+
+        LinkedList<String> authorsString = new LinkedList<>();
+
+        for (Author author : authorService.getAuthorListByPublication(publication)) {
+            authorsString.add(author.getSurname() + " " + author.getName() + " " + author.getPatronymic());
+        }
+
+        String authors = authorsString
+                .stream()
+                .map(name -> ("" + name + ""))
+                .collect(Collectors.joining(","));
+
+        modelAndView.addObject("publicationTypes", publicationService.getPublicationTypes());
+        modelAndView.addObject("sources", sourceService.getAllSources());
+        modelAndView.addObject("authorList", authors);
+        modelAndView.addObject("publication", publication);
+        modelAndView.setViewName("edit-single-publication");
+        return modelAndView;
+    }
+
+    @PostMapping("/admin/edit-publication/{id}")
+    public ModelAndView editPublication(ModelAndView modelAndView,
+                                   @PathVariable Integer id,
+                                   @Valid @ModelAttribute("editPublication") Publication editPublication,
+                                   BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("publicationTypes", publicationService.getPublicationTypes());
+            modelAndView.addObject("sources", sourceService.getAllSources());
+            Publication publication = publicationService.findPublicationById(editPublication.getId());
+            modelAndView.addObject("publication", publication);
+            modelAndView.setViewName("/admin/edit-publication/" + id);
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate date = LocalDate.parse(editPublication.getDate(), formatter);
+
+            editPublication.setSource(sourceService.findSourceByName(editPublication.getSourceString()));
+            editPublication.setType(publicationService.findPublicationTypeByName(editPublication.getPublicationType()));
+
+            publicationService.addPublication(editPublication, date);
+            modelAndView.addObject("successMessage", "Публикация успешно отредактирована!");
+            modelAndView.addObject("publication", new Source());
+            modelAndView.setViewName("redirect:/admin");
+        }
+
+        return modelAndView;
+    }
+
+    public void filterFunction(ModelAndView modelAndView) {
+        modelAndView.addObject("ratings", filterService.getRatings());
+        modelAndView.addObject("departments", filterService.getDepartments());
+        modelAndView.addObject("publicationTypes", filterService.getPublicationTypes());
     }
 }

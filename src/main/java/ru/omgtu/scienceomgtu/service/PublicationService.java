@@ -89,4 +89,12 @@ public class PublicationService {
     public PublicationType findPublicationTypeByName(String name) {
         return publicationTypeRepository.findPublicationTypeByName(name);
     }
+
+    public void deletePublication(Integer id) {
+        publicationRepository.deleteById(id);
+    }
+
+    public Publication findPublicationById(Integer id) {
+        return publicationRepository.findPublicationById(id);
+    }
 }

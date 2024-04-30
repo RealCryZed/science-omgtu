@@ -53,4 +53,9 @@ public class SourceService {
     public Page<Source> findSourcesWithPagination(int offset, Integer pageSize) {
         return sourceRepository.findAll(PageRequest.of(offset - 1, pageSize));
     }
+
+
+    public void deleteSource(Integer id) {
+        sourceRepository.deleteById(id);
+    }
 }

@@ -25,9 +25,49 @@
                 <li><a th:href="@{'/admin/edit-source/page/1?pageSize=80'}">80</a></li>
             </ul>
         </div>
+
+        <div class="publication-filter-wrapper">
+            <div class="filters">
+                <div>Фильтры:</div>
+                <form class="filters-form">
+                    <div>
+                        <label class="filter-label">Период времени</label><br>
+                        ОТ: <input name="beforeTime" type="date"><br>
+                        ДО: <input name="afterTime" type="date"><br>
+                    </div>
+                    <div>
+                        <label class="filter-label">Тип публикации</label>
+                        <select class="filter-select" name="publicationTime">
+                            <option></option>
+                            <option th:each="type : ${publicationTypes}"
+                                    th:value="${type}" th:text="${type}"></option></select><br/>
+                        </select><br>
+                    </div>
+                    <div>
+                        <label class="filter-label">Рейтинг</label>
+                        <select class="filter-select" name="sourceRating">
+                            <option></option>
+                            <option th:each="rating : ${ratings}"
+                                    th:value="${rating}" th:text="${rating}"></option></select><br/>
+                        </select><br>
+                    </div>
+                    <div>
+                        <label class="filter-label">Кафедра</label>
+                        <select class="filter-select" name="department">
+                            <option></option>
+                            <option th:each="department : ${departments}"
+                                    th:value="${department}" th:text="${department}"></option></select><br/>
+                        </select><br>
+                    </div>
+                    <div>
+                        <input type="submit" value="Применить">
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
-    <div class="authors-block">
+    <div class="source-block">
         <div th:each="source : ${sources}" class="source-wrapper">
             <a th:href="@{'/admin/edit-source/' + ${source.getId()}}">
                 <img src="/img/author.jpg" alt="Source"/>

@@ -1,0 +1,55 @@
+.app-wrapper {
+    display: flex;
+}
+
+.publication-filter-wrapper {
+    min-width: 140px;
+}
+
+.publications-block {
+    margin: 0 auto;
+}
+
+.publication-wrapper {
+    display: inline-flex;
+    min-height: 350px;
+    min-width: 205px;
+    border: 1px solid;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 17px;
+    border-radius: 10px;
+    color: black;
+}
+
+.delete-publication {
+    margin: 0 auto;
+    max-width: 210px;
+    text-align: center;
+    min-width: 210px;
+}
+
+.delete-publication > a {
+    display: block;
+    color: red;
+    border: 2px solid black;
+}
+
+.publication-wrapper > a {
+    display: block;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.publication-wrapper:hover {
+    background-color: grey;
+}
+
+.publication-wrapper > a > div {
+    display: flex;
+}
+
+.publication-wrapper > a > img {
+    max-width: 150px;
+    max-height: 150px;
+}
