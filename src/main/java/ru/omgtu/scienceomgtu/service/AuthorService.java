@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.omgtu.scienceomgtu.model.*;
+import ru.omgtu.scienceomgtu.repository.AuthorDepartmentRepository;
 import ru.omgtu.scienceomgtu.repository.AuthorPublicationOrganizationRepository;
 import ru.omgtu.scienceomgtu.repository.AuthorPublicationRepository;
 import ru.omgtu.scienceomgtu.repository.AuthorRepository;
@@ -17,6 +18,9 @@ public class AuthorService {
 
     @Autowired
     private AuthorPublicationRepository authorPublicationRepository;
+
+    @Autowired
+    private AuthorDepartmentRepository authorDepartmentRepository;
 
     @Autowired
     private AuthorPublicationOrganizationRepository authorPublicationOrganizationRepository;
@@ -68,6 +72,7 @@ public class AuthorService {
     }
 
     public void deleteAuthor(Integer id) {
+//        authorDepartmentRepository.deleteByAuthor(getAuthorById(id));
         authorRepository.deleteById(id);
     }
 }

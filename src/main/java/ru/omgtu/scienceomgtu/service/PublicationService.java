@@ -34,6 +34,10 @@ public class PublicationService {
         publicationRepository.save(publication);
     }
 
+    public List<Publication> getAllPublicationsBySource(Integer sourceId) {
+        return publicationRepository.findAllBySourceId(sourceId);
+    }
+
     public List<PublicationType> getPublicationTypes() {
         return publicationTypeRepository.findAll();
     }

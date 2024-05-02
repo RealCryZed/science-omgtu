@@ -12,4 +12,6 @@ public interface PublicationRepository extends JpaRepository<Publication, Intege
     Publication findPublicationById(Integer id);
 
     List<Publication> findTop20ByOrderByPublicationDateDesc();
+
+    List<Publication> findAllBySourceId(Integer sourceId);
 }
